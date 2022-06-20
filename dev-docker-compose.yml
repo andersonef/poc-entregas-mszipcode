@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mszipcodeworker:
+    container_name: poc-entregas-zipcode
+    build: 
+      context: .
+      dockerfile: DevDockerfile
+    volumes:
+      - ".:/app"
+    networks:
+      - pocNetwork
+    depends_on:
+      - zipcodedb
+      - rabbit
+ 
+  zipcodedb:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: msdb
+    networks:
+      - pocNetwork
+
+networks:
+  pocNetwork:
+    name: poc-network
+    driver: bridge
